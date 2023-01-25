@@ -5,9 +5,7 @@
 //  Created by 정지민 on 2023/01/25.
 //
 
-import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
 
@@ -16,15 +14,11 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
+            let scene = GameScene(size: view.bounds.size)
+            scene.scaleMode = .aspectFill
+            view.presentScene(scene)
             
-            view.ignoresSiblingOrder = true
+            view.ignoresSiblingOrder = true     // 컴퓨터에게 객체를 그리는 순서를 맡기겠다
             
             view.showsFPS = true
             view.showsNodeCount = true
