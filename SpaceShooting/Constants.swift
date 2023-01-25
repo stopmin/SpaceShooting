@@ -14,6 +14,8 @@ struct  Particle {
 struct Layer {
     static let starfield:  CGFloat = 0
     static let meteor: CGFloat = 1
+    static let playermissile: CGFloat = 10
+    static let player: CGFloat = 11
 }
 
 struct Atlas {

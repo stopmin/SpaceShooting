@@ -19,6 +19,7 @@
 		8E2AFF9C29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF9B29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift */; };
 		8E2AFFF029811A8700125B17 /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFFEF29811A8700125B17 /* starfield.sks */; };
 		8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFFF129811CCB00125B17 /* Constants.swift */; };
+		8E2AFFF42981835000125B17 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFFF32981835000125B17 /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		8E2AFF9B29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShootingUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8E2AFFEF29811A8700125B17 /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		8E2AFFF129811CCB00125B17 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8E2AFFF32981835000125B17 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				8E2AFF8429810B1800125B17 /* LaunchScreen.storyboard */,
 				8E2AFFEF29811A8700125B17 /* starfield.sks */,
 				8E2AFFF129811CCB00125B17 /* Constants.swift */,
+				8E2AFFF32981835000125B17 /* Player.swift */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */,
 				8E2AFF7E29810B1700125B17 /* GameViewController.swift in Sources */,
 				8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */,
+				8E2AFFF42981835000125B17 /* Player.swift in Sources */,
 				8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

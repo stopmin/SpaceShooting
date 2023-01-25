@@ -14,6 +14,9 @@ class GameScene: SKScene {
     var meteorTimer = Timer()
     var meteorInterval: TimeInterval = 2.0
     
+    var player: Player! // 널 값이 안들어가는게 확실!
+    var playerFireTimer = Timer()
+    
     override func didMove(to view: SKView) {    // 화면 초기화
         // 배경용 별무리 붙이기
         guard let starfield = SKEmitterNode(fileNamed: Particle.starfield) else {return}   // 파일이 없을 경우 return
@@ -22,10 +25,21 @@ class GameScene: SKScene {
         starfield.advanceSimulationTime(30) // 화면이 30초 진행된 상태에서 시작해라
         self.addChild(starfield)
         
-//        addMeteor()
+        //        addMeteor()
         meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)  // 메테오 타이머에 부여한다 이때 addmeteor는 Self형태로
+        // 플레이어 배치
+        player = Player(screenSize: self.size)
+        player.position = CGPoint(x: size.width / 2, y: player.size.height * 2)
+        self.addChild(player) // player 게임 씬에 붙여주기
+        
+        playerFireTimer = setTimer(interval: 0.4, function: self.playerFire)
     }
     
+    func playerFire() {
+        let missile = self.player.createMissile()
+        self.addChild(missile)
+        self.player.fireMissile(missile: missile) // firemissile을 통해 화면 밖으로 보낸다
+    }
     
     func addMeteor() {  // meteor를 만드는 함수
         let randomMeteor = arc4random_uniform(UInt32(3)) + 1                    // 랜덤으로 메테오 생성 (3가지 중 1개)
@@ -55,4 +69,16 @@ class GameScene: SKScene {
         
         return timer
     }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var location: CGPoint!
+        if let touch = touches.first {
+            location = touch.location(in: self)
+        }
+        self.player.run(SKAction.moveTo(x: location.x, duration: 0.2))
+    }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        playerFire()
+//    }
 }
