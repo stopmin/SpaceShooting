@@ -17,6 +17,8 @@
 		8E2AFF9029810B1800125B17 /* SpaceShootingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF8F29810B1800125B17 /* SpaceShootingTests.swift */; };
 		8E2AFF9A29810B1800125B17 /* SpaceShootingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF9929810B1800125B17 /* SpaceShootingUITests.swift */; };
 		8E2AFF9C29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF9B29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift */; };
+		8E2AFFF029811A8700125B17 /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFFEF29811A8700125B17 /* starfield.sks */; };
+		8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFFF129811CCB00125B17 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		8E2AFF9529810B1800125B17 /* SpaceShootingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceShootingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2AFF9929810B1800125B17 /* SpaceShootingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShootingUITests.swift; sourceTree = "<group>"; };
 		8E2AFF9B29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShootingUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8E2AFFEF29811A8700125B17 /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
+		8E2AFFF129811CCB00125B17 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				8E2AFF7F29810B1700125B17 /* Main.storyboard */,
 				8E2AFF8229810B1800125B17 /* Assets.xcassets */,
 				8E2AFF8429810B1800125B17 /* LaunchScreen.storyboard */,
+				8E2AFFEF29811A8700125B17 /* starfield.sks */,
+				8E2AFFF129811CCB00125B17 /* Constants.swift */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 				8E2AFF8129810B1700125B17 /* Main.storyboard in Resources */,
 				8E2AFF8329810B1800125B17 /* Assets.xcassets in Resources */,
 				8E2AFF8629810B1800125B17 /* LaunchScreen.storyboard in Resources */,
+				8E2AFFF029811A8700125B17 /* starfield.sks in Resources */,
 				8E2AFF7A29810B1700125B17 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +270,7 @@
 				8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */,
 				8E2AFF7E29810B1700125B17 /* GameViewController.swift in Sources */,
 				8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */,
+				8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
