@@ -10,6 +10,9 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
+    let cameraNode = SKCameraNode()
+    
     // 타이머용 컨테이너
     var meteorTimer = Timer()
     var meteorInterval: TimeInterval = 2.0
@@ -21,9 +24,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {    // 화면 초기화
         
+        // 물리효과 판정 델리게이트 셋업
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
+        
+        // 카메라 추가
+        self.camera = cameraNode
+        cameraNode.position.x = self.size.width / 2
+        cameraNode.position.y = self.size.height / 2
+        self.addChild(cameraNode)
+
         // 배경용 별무리 붙이기
         guard let starfield = SKEmitterNode(fileNamed: Particle.starfield) else {return}   // 파일이 없을 경우 return
         starfield.position = CGPoint(x: size.width / 2, y: size.height) // 화면의 중간지점, 제일 위쪽
@@ -115,6 +126,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return timer
     }
     
+    // 데미지 이펙트 정의
+    func explosion(targetNode: SKSpriteNode, isSmall: Bool) {
+        let particle: String!
+        if isSmall {
+            particle = Particle.hit
+        } else {
+            particle = Particle.explosion
+        }
+        guard let explosion = SKEmitterNode(fileNamed: particle) else {return}
+        explosion.position = targetNode.position
+        explosion.zPosition = targetNode.zPosition
+        self.addChild(explosion)
+        
+        self.run(SKAction.wait(forDuration: 2)){
+            explosion.removeFromParent()
+        }
+    }
+    
+    func playerDamgageEffect() {
+        // 화면을 빨간색으로 점멸
+        let flashNode = SKSpriteNode(color: SKColor.red, size: self.size)
+        flashNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+        flashNode.zPosition = Layer.hud
+        self.addChild(flashNode)
+        flashNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.01), SKAction.removeFromParent()]))
+        
+        // 화면 흔들기
+        let moveLeft = SKAction.moveTo(x: self.size.width / 2 - 5, duration: 0.1)
+        let moveRight = SKAction.moveTo(x: self.size.width / 2 + 5, duration: 0.1)
+        let moveCentor = SKAction.moveTo(x: self.size.width / 2, duration: 0.1)
+        let shakeAction = SKAction.sequence([moveLeft,moveRight,moveLeft,moveRight,moveCentor])
+        shakeAction.timingMode = .easeInEaseOut
+        self.cameraNode.run(shakeAction)
+        
+    }
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         var location: CGPoint!
         if let touch = touches.first {
@@ -144,21 +191,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == PhysicsCategory.player
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
             print("player and meteor!!")
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: false)
+            targetNode.removeFromParent()
+            
+            playerDamgageEffect()
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.player
             && secondBody.categoryBitMask == PhysicsCategory.enemy {
             print("player and enemy!!")
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: true)
+            targetNode.removeFromParent()
+            
+            playerDamgageEffect()
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.missile
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
             print("missile and meteor!!")
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: false)
+            targetNode.removeFromParent()
+            
+            firstBody.node?.removeFromParent()
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.missile
             && secondBody.categoryBitMask == PhysicsCategory.enemy {
             print("missile and enemy!!")
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: true)
+            targetNode.removeFromParent()
+            
+            firstBody.node?.removeFromParent()
         }
     }
 }

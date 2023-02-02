@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E259364298B99FE008B4C9D /* explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E259363298B99FE008B4C9D /* explosion.sks */; };
+		8E259366298B9A85008B4C9D /* hit.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E259365298B9A85008B4C9D /* hit.sks */; };
 		8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7529810B1700125B17 /* AppDelegate.swift */; };
 		8E2AFF7A29810B1700125B17 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7929810B1700125B17 /* Actions.sks */; };
 		8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7B29810B1700125B17 /* GameScene.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E259363298B99FE008B4C9D /* explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosion.sks; sourceTree = "<group>"; };
+		8E259365298B9A85008B4C9D /* hit.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = hit.sks; sourceTree = "<group>"; };
 		8E2AFF7229810B1700125B17 /* SpaceShooting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShooting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2AFF7529810B1700125B17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2AFF7929810B1700125B17 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 				8E57B9EC298B824700A8032C /* enemyThruster.sks */,
 				8E57B9EE298B826900A8032C /* playerThruster.sks */,
 				8E57B9EF298B826900A8032C /* Assets.xcassets */,
+				8E259363298B99FE008B4C9D /* explosion.sks */,
+				8E259365298B9A85008B4C9D /* hit.sks */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -247,11 +253,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E259366298B9A85008B4C9D /* hit.sks in Resources */,
 				8E2AFF8129810B1700125B17 /* Main.storyboard in Resources */,
 				8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */,
 				8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */,
 				8E2AFF8629810B1800125B17 /* LaunchScreen.storyboard in Resources */,
 				8E57B9F1298B826900A8032C /* Assets.xcassets in Resources */,
+				8E259364298B99FE008B4C9D /* explosion.sks in Resources */,
 				8E2AFFF029811A8700125B17 /* starfield.sks in Resources */,
 				8E2AFF7A29810B1700125B17 /* Actions.sks in Resources */,
 			);
