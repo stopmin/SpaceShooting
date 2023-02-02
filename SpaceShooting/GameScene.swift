@@ -13,6 +13,8 @@ class GameScene: SKScene {
     // 타이머용 컨테이너
     var meteorTimer = Timer()
     var meteorInterval: TimeInterval = 2.0
+    var enemyTimer = Timer()
+    var enemyInterval: TimeInterval = 1.2
     
     var player: Player! // 널 값이 안들어가는게 확실!
     var playerFireTimer = Timer()
@@ -27,12 +29,15 @@ class GameScene: SKScene {
         
         //        addMeteor()
         meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)  // 메테오 타이머에 부여한다 이때 addmeteor는 Self형태로
+        enemyTimer = setTimer(interval: enemyInterval, function: self.addEnemy)
+        
         // 플레이어 배치
         player = Player(screenSize: self.size)
         player.position = CGPoint(x: size.width / 2, y: player.size.height * 2)
         self.addChild(player) // player 게임 씬에 붙여주기
         
         playerFireTimer = setTimer(interval: 0.4, function: self.playerFire)
+        
     }
     
     func playerFire() {
@@ -62,10 +67,28 @@ class GameScene: SKScene {
         meteor.run(SKAction.sequence([moveandRotateAct,removeAct]))
     }
     
+    func addEnemy() {
+        let randomEnemy = arc4random_uniform(UInt32(3)) + 1
+        let randomXpos = self.player.size.width / 2 + CGFloat(arc4random_uniform(UInt32(self.size.width - self.player.size.width / 2)))
+        let randomSpeed = TimeInterval(arc4random_uniform(UInt32(3)) + 3)
+        
+        let texture = Atlas.gameobject.textureNamed("enemy\(randomEnemy)")
+        let enemy = SKSpriteNode(texture: texture)
+        enemy.name = "enemy"
+        enemy.position = CGPoint(x: randomXpos, y: self.size.height + enemy.size.height)
+        enemy.zPosition = Layer.enemy
+        
+        self.addChild(enemy)
+        
+        let moveAct = SKAction.moveTo(y: -enemy.size.height, duration: randomSpeed)
+        let removeAct = SKAction.removeFromParent()
+        enemy.run(SKAction.sequence([moveAct, removeAct]))
+    }
+    
     func setTimer(interval: TimeInterval, function:@escaping () -> Void) -> Timer { // 함수를 포인터형태로
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true){ _ in function()
         }
-        timer.tolerance = interval * 0.2    // 여유분을 제공하는 것 (좀 더 느려져도 된다)
+        timer.tolerance = interval * 0.2    // 여유분을 제공
         
         return timer
     }
