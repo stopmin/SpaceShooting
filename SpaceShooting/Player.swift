@@ -16,6 +16,12 @@ class Player: SKSpriteNode{
         super.init(texture: playerTexture, color:SKColor.clear, size: playerTexture.size())
         self.zPosition = Layer.player
         
+        // 물리바디 설정
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width / 3, height: self.size.height / 3), center: CGPoint(x: 0, y: 0))
+        self.physicsBody?.categoryBitMask = PhysicsCategory.player
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor
+        self.physicsBody?.collisionBitMask = 0
+        
         // 스러스터 붙이기
         guard let thruster = SKEmitterNode(fileNamed: Particle.playerThruster) else {return}
         thruster.position.y -= self.size.height / 2
@@ -37,6 +43,13 @@ class Player: SKSpriteNode{
         missile.position = self.position
         missile.position.y += self.size.height
         missile.zPosition = Layer.playermissile
+        
+        // 물리바디 부여
+        missile.physicsBody = SKPhysicsBody(rectangleOf: missile.size)
+        missile.physicsBody?.categoryBitMask = PhysicsCategory.missile
+        missile.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor
+        missile.physicsBody?.collisionBitMask = 0
+        missile.physicsBody?.usesPreciseCollisionDetection = true
         
         return missile
     }

@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // 타이머용 컨테이너
     var meteorTimer = Timer()
@@ -20,6 +20,10 @@ class GameScene: SKScene {
     var playerFireTimer = Timer()
     
     override func didMove(to view: SKView) {    // 화면 초기화
+        
+        self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
         // 배경용 별무리 붙이기
         guard let starfield = SKEmitterNode(fileNamed: Particle.starfield) else {return}   // 파일이 없을 경우 return
         starfield.position = CGPoint(x: size.width / 2, y: size.height) // 화면의 중간지점, 제일 위쪽
@@ -57,6 +61,12 @@ class GameScene: SKScene {
         meteor.position = CGPoint(x: randomXPos, y: self.size.height + meteor.size.height)      // 메테오 사이즈만큼 큰 곳에 붙여줌
         meteor.zPosition = Layer.meteor // 백그라운드보다 하나 높은 위치
         
+        
+        // 물리바디 부여
+        meteor.physicsBody = SKPhysicsBody(texture: texture, size: meteor.size)
+        meteor.physicsBody?.categoryBitMask = PhysicsCategory.meteor
+        meteor.physicsBody?.contactTestBitMask = 0
+        meteor.physicsBody?.collisionBitMask = 0
         self.addChild(meteor)
         
         let moveAct = SKAction.moveTo(y: -meteor.size.height, duration: randomSpeed)        // Y 값으로만 움직이도록
@@ -78,6 +88,11 @@ class GameScene: SKScene {
         enemy.position = CGPoint(x: randomXpos, y: self.size.height + enemy.size.height)
         enemy.zPosition = Layer.enemy
         
+        // 물리바디 부여
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.height/2)
+        enemy.physicsBody?.categoryBitMask = PhysicsCategory.enemy
+        enemy.physicsBody?.contactTestBitMask = 0
+        enemy.physicsBody?.collisionBitMask = 0
         self.addChild(enemy)
         
         // 스러스터 효과 부착
@@ -111,4 +126,39 @@ class GameScene: SKScene {
 //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        playerFire()
 //    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // 충돌한 두 바디 정렬
+        var firstBody = SKPhysicsBody()
+        var secondBody = SKPhysicsBody()
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else{
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.player
+            && secondBody.categoryBitMask == PhysicsCategory.meteor {
+            print("player and meteor!!")
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.player
+            && secondBody.categoryBitMask == PhysicsCategory.enemy {
+            print("player and enemy!!")
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.missile
+            && secondBody.categoryBitMask == PhysicsCategory.meteor {
+            print("missile and meteor!!")
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.missile
+            && secondBody.categoryBitMask == PhysicsCategory.enemy {
+            print("missile and enemy!!")
+        }
+    }
 }
