@@ -12,7 +12,6 @@
 		8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7B29810B1700125B17 /* GameScene.swift */; };
 		8E2AFF7E29810B1700125B17 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7D29810B1700125B17 /* GameViewController.swift */; };
 		8E2AFF8129810B1700125B17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFF7F29810B1700125B17 /* Main.storyboard */; };
-		8E2AFF8329810B1800125B17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFF8229810B1800125B17 /* Assets.xcassets */; };
 		8E2AFF8629810B1800125B17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFF8429810B1800125B17 /* LaunchScreen.storyboard */; };
 		8E2AFF9029810B1800125B17 /* SpaceShootingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF8F29810B1800125B17 /* SpaceShootingTests.swift */; };
 		8E2AFF9A29810B1800125B17 /* SpaceShootingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFF9929810B1800125B17 /* SpaceShootingUITests.swift */; };
@@ -20,6 +19,9 @@
 		8E2AFFF029811A8700125B17 /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AFFEF29811A8700125B17 /* starfield.sks */; };
 		8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFFF129811CCB00125B17 /* Constants.swift */; };
 		8E2AFFF42981835000125B17 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2AFFF32981835000125B17 /* Player.swift */; };
+		8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EC298B824700A8032C /* enemyThruster.sks */; };
+		8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EE298B826900A8032C /* playerThruster.sks */; };
+		8E57B9F1298B826900A8032C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EF298B826900A8032C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +48,6 @@
 		8E2AFF7B29810B1700125B17 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		8E2AFF7D29810B1700125B17 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		8E2AFF8029810B1700125B17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8E2AFF8229810B1800125B17 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E2AFF8529810B1800125B17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E2AFF8B29810B1800125B17 /* SpaceShootingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceShootingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2AFF8F29810B1800125B17 /* SpaceShootingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShootingTests.swift; sourceTree = "<group>"; };
@@ -56,6 +57,9 @@
 		8E2AFFEF29811A8700125B17 /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		8E2AFFF129811CCB00125B17 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8E2AFFF32981835000125B17 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		8E57B9EC298B824700A8032C /* enemyThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = enemyThruster.sks; sourceTree = "<group>"; };
+		8E57B9EE298B826900A8032C /* playerThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = playerThruster.sks; sourceTree = "<group>"; };
+		8E57B9EF298B826900A8032C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,11 +115,13 @@
 				8E2AFF7B29810B1700125B17 /* GameScene.swift */,
 				8E2AFF7D29810B1700125B17 /* GameViewController.swift */,
 				8E2AFF7F29810B1700125B17 /* Main.storyboard */,
-				8E2AFF8229810B1800125B17 /* Assets.xcassets */,
 				8E2AFF8429810B1800125B17 /* LaunchScreen.storyboard */,
 				8E2AFFEF29811A8700125B17 /* starfield.sks */,
 				8E2AFFF129811CCB00125B17 /* Constants.swift */,
 				8E2AFFF32981835000125B17 /* Player.swift */,
+				8E57B9EC298B824700A8032C /* enemyThruster.sks */,
+				8E57B9EE298B826900A8032C /* playerThruster.sks */,
+				8E57B9EF298B826900A8032C /* Assets.xcassets */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -242,8 +248,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2AFF8129810B1700125B17 /* Main.storyboard in Resources */,
-				8E2AFF8329810B1800125B17 /* Assets.xcassets in Resources */,
+				8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */,
+				8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */,
 				8E2AFF8629810B1800125B17 /* LaunchScreen.storyboard in Resources */,
+				8E57B9F1298B826900A8032C /* Assets.xcassets in Resources */,
 				8E2AFFF029811A8700125B17 /* starfield.sks in Resources */,
 				8E2AFF7A29810B1700125B17 /* Actions.sks in Resources */,
 			);

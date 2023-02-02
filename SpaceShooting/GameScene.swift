@@ -80,6 +80,13 @@ class GameScene: SKScene {
         
         self.addChild(enemy)
         
+        // 스러스터 효과 부착
+        guard let thruster = SKEffectNode(fileNamed: Particle.enemyThruster) else {return}
+        thruster.zPosition = Layer.sub
+        let thrusterEffectNode = SKEffectNode()
+        thrusterEffectNode.addChild(thruster)
+        enemy.addChild(thrusterEffectNode)
+        
         let moveAct = SKAction.moveTo(y: -enemy.size.height, duration: randomSpeed)
         let removeAct = SKAction.removeFromParent()
         enemy.run(SKAction.sequence([moveAct, removeAct]))
