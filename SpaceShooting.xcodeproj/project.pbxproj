@@ -24,6 +24,10 @@
 		8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EC298B824700A8032C /* enemyThruster.sks */; };
 		8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EE298B826900A8032C /* playerThruster.sks */; };
 		8E57B9F1298B826900A8032C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EF298B826900A8032C /* Assets.xcassets */; };
+		8EFAA5B529A3A61000A6C0D4 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B429A3A61000A6C0D4 /* Hud.swift */; };
+		8EFAA5B729A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
+		8EFAA5B829A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
+		8EFAA5B929A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,9 @@
 		8E57B9EC298B824700A8032C /* enemyThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = enemyThruster.sks; sourceTree = "<group>"; };
 		8E57B9EE298B826900A8032C /* playerThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = playerThruster.sks; sourceTree = "<group>"; };
 		8E57B9EF298B826900A8032C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8EFAA5B429A3A61000A6C0D4 /* Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
+		8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minercraftory.ttf; sourceTree = "<group>"; };
+		8EFAA5BA29A3AC8B00A6C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +121,8 @@
 		8E2AFF7429810B1700125B17 /* SpaceShooting */ = {
 			isa = PBXGroup;
 			children = (
+				8EFAA5BA29A3AC8B00A6C0D4 /* Info.plist */,
+				8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */,
 				8E2AFF7529810B1700125B17 /* AppDelegate.swift */,
 				8E2AFF7929810B1700125B17 /* Actions.sks */,
 				8E2AFF7B29810B1700125B17 /* GameScene.swift */,
@@ -128,6 +137,7 @@
 				8E57B9EF298B826900A8032C /* Assets.xcassets */,
 				8E259363298B99FE008B4C9D /* explosion.sks */,
 				8E259365298B9A85008B4C9D /* hit.sks */,
+				8EFAA5B429A3A61000A6C0D4 /* Hud.swift */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -255,6 +265,7 @@
 			files = (
 				8E259366298B9A85008B4C9D /* hit.sks in Resources */,
 				8E2AFF8129810B1700125B17 /* Main.storyboard in Resources */,
+				8EFAA5B729A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */,
 				8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */,
 				8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */,
 				8E2AFF8629810B1800125B17 /* LaunchScreen.storyboard in Resources */,
@@ -269,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EFAA5B829A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EFAA5B929A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +304,7 @@
 				8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */,
 				8E2AFFF42981835000125B17 /* Player.swift in Sources */,
 				8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */,
+				8EFAA5B529A3A61000A6C0D4 /* Hud.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -450,6 +465,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -468,7 +484,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpaceShooting/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Space Shooting";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -496,7 +514,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpaceShooting/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Space Shooting";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

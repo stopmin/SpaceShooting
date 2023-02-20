@@ -22,6 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player: Player! // 널 값이 안들어가는게 확실!
     var playerFireTimer = Timer()
     
+    
+    let hud = Hud()
+    
     override func didMove(to view: SKView) {    // 화면 초기화
         
         // 물리효과 판정 델리게이트 셋업
@@ -41,6 +44,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         starfield.zPosition = Layer.starfield
         starfield.advanceSimulationTime(30) // 화면이 30초 진행된 상태에서 시작해라
         self.addChild(starfield)
+        
+        
+        hud.createHud(screenSize: self.size)
+        self.addChild(hud)  // Hud객체를 화면에 붙여줌
         
         //        addMeteor()
         meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)  // 메테오 타이머에 부여한다 이때 addmeteor는 Self형태로
@@ -190,29 +197,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if firstBody.categoryBitMask == PhysicsCategory.player
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
-            print("player and meteor!!")
+//             print("player and meteor!!")
             
             guard let targetNode = secondBody.node as? SKSpriteNode else {return}
             explosion(targetNode: targetNode, isSmall: false)
             targetNode.removeFromParent()
             
             playerDamgageEffect()
+            hud.subtractLive()
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.player
             && secondBody.categoryBitMask == PhysicsCategory.enemy {
-            print("player and enemy!!")
+//            print("player and enemy!!")
             
             guard let targetNode = secondBody.node as? SKSpriteNode else {return}
             explosion(targetNode: targetNode, isSmall: true)
             targetNode.removeFromParent()
             
             playerDamgageEffect()
+            hud.subtractLive()
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.missile
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
-            print("missile and meteor!!")
+//            print("missile and meteor!!")
             
             guard let targetNode = secondBody.node as? SKSpriteNode else {return}
             explosion(targetNode: targetNode, isSmall: false)
@@ -223,7 +232,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if firstBody.categoryBitMask == PhysicsCategory.missile
             && secondBody.categoryBitMask == PhysicsCategory.enemy {
-            print("missile and enemy!!")
+//            print("missile and enemy!!")
+            
+            self.hud.score += 10
             
             guard let targetNode = secondBody.node as? SKSpriteNode else {return}
             explosion(targetNode: targetNode, isSmall: true)
