@@ -7,6 +7,12 @@
 
 import SpriteKit
 
+enum BossState {
+    case firstStep
+    case secondStep
+    case thirdStep
+}
+
 class Boss: SKSpriteNode {
     var screenSize: CGSize!
     var level: Int!
@@ -16,14 +22,35 @@ class Boss: SKSpriteNode {
     let maxHP: Int!
     var shootCount: Int = 0
     
+    // 보스의 스테이트 머신
+    var bossState: BossState! {
+        didSet{
+            if bossState == .secondStep {
+                print(bossState as Any)
+                self.run(infiniteMoveRL1)
+                
+            } else if bossState == .thirdStep {
+                print(bossState as Any)
+                self.removeAllActions()
+                self.run(infiniteMoveRL2)
+                let damageTexture = createDamageTexture()
+                self.addChild(damageTexture)
+            }
+        }
+    }
+    
+    // 애니메이션용 변수
+    var infiniteMoveRL1 = SKAction()
+    var infiniteMoveRL2 = SKAction()
     // MARK: - 초기화
     init(screenSize: CGSize, level: Int) {
         
-        // 초기 파ㅏ라메타 결정
+        // 초기 파라메타 결정
         self.screenSize = screenSize
         self.level = level
         self.maxHP = self.bossHP[level - 1]
         let texture = Atlas.gameobject.textureNamed(String(format: "boss%d", level))
+        self.bossState = .firstStep
         
         super.init(texture: texture, color: SKColor.clear, size: texture.size())
             
@@ -36,6 +63,8 @@ class Boss: SKSpriteNode {
         
         self.position.x = screenSize.width / 2
         self.position.y = screenSize.height + texture.size().height
+        
+        createActions()
     }
     
     // 출현하는 애니메이션
@@ -55,6 +84,25 @@ class Boss: SKSpriteNode {
         
         return overlay
     }
+    
+    // 단계별 애니메이션 작성
+    func createActions() {
+        
+        // 좌우이동 1단계
+        let duration1 = 3.0
+        let moveRight1 = SKAction.moveTo(x: screenSize.width, duration: duration1)
+        let moveCenter1 = SKAction.moveTo(x: screenSize.width / 2, duration: duration1)
+        let moveLeft1 = SKAction.moveTo(x: 0, duration: duration1)
+        let moveRtoL1 = SKAction.sequence([moveRight1, moveCenter1, moveLeft1, moveCenter1])
+        infiniteMoveRL1 = SKAction.repeatForever(moveRtoL1)
+    
+        // 좌우이동 2단계
+        let duration2 = 1.0
+        let moveRight2 = SKAction.moveTo(x: screenSize.width, duration: duration2)
+        let moveCenter2 = SKAction.moveTo(x: screenSize.width / 2, duration: duration2)
+        let moveLeft2 = SKAction.moveTo(x: 0, duration: duration2)
+        let moveRtoL2 = SKAction.sequence([moveRight2, moveCenter2, moveLeft2, moveCenter2])
+        infiniteMoveRL2 = SKAction.repeatForever(moveRtoL2)    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

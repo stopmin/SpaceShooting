@@ -27,6 +27,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var boss: Boss?
     var isBossOnScreen = false
+    var bossNumber = 2
+    
     
     override func didMove(to view: SKView) {    // 화면 초기화
         
@@ -266,10 +268,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             boss.shootCount += 1
             print(boss.shootCount)
             
-            if boss.shootCount >= (boss.maxHP / 2) {
-                let damageTexture = boss.createDamageTexture()
-                boss.addChild(damageTexture)
+//            if boss.shootCount >= (boss.maxHP / 2) {
+//                let damageTexture = boss.createDamageTexture()
+//                boss.addChild(damageTexture)
+//            }
+            
+            if boss.shootCount > boss.maxHP {
+//                print("boss has defeated!")
+                
+                explosion(targetNode: targetNode, isSmall: false)
+                secondBody.node?.removeFromParent()
+                self.boss = nil
+                self.hud.score += 100
+                self.bossNumber -= 1
+                isBossOnScreen = false
+                
+            } else if boss.shootCount >= Int(Double(boss.maxHP) * 0.6) {
+//                print("boss HP left is 40%")
+                
+                // 2단게에서 3단계로 전환
+                if boss.bossState == .secondStep{
+                    boss.bossState = .thirdStep
+                } else {return}
+            } else if boss.shootCount >= Int(Double(boss.maxHP) * 0.2) {
+//                print("boss HP left is 80%")
+            
+                // 1단계에서 2단계로 전환
+                if boss.bossState == .firstStep {
+                    boss.bossState = .secondStep
+                } else {return}
             }
+            
         }
     }
     
@@ -284,12 +313,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             isBossOnScreen = true
         } else if self.hud.score >= 50 {
-            self.boss = Boss(screenSize: self.size, level: 1)
-            guard let boss = boss else {return}
-            self.addChild(boss)
-            boss.appear()
-            
-            isBossOnScreen = true
-        } else {return}
+            if bossNumber == 2{
+                self.boss = Boss(screenSize: self.size, level: 1)
+                guard let boss = boss else {return}
+                self.addChild(boss)
+                boss.appear()
+                
+                isBossOnScreen = true
+            } else {return}            
+        }
     }
 }
