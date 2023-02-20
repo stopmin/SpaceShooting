@@ -28,6 +28,9 @@
 		8EFAA5B729A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
 		8EFAA5B829A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
 		8EFAA5B929A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
+		8EFAA5BC29A3BA0300A6C0D4 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */; };
+		8EFAA5BD29A3BA0300A6C0D4 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */; };
+		8EFAA5BE29A3BA0300A6C0D4 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,7 @@
 		8EFAA5B429A3A61000A6C0D4 /* Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
 		8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minercraftory.ttf; sourceTree = "<group>"; };
 		8EFAA5BA29A3AC8B00A6C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boss.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,7 @@
 				8E259363298B99FE008B4C9D /* explosion.sks */,
 				8E259365298B9A85008B4C9D /* hit.sks */,
 				8EFAA5B429A3A61000A6C0D4 /* Hud.swift */,
+				8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -301,6 +306,7 @@
 			files = (
 				8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */,
 				8E2AFF7E29810B1700125B17 /* GameViewController.swift in Sources */,
+				8EFAA5BC29A3BA0300A6C0D4 /* Boss.swift in Sources */,
 				8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */,
 				8E2AFFF42981835000125B17 /* Player.swift in Sources */,
 				8E2AFFF229811CCB00125B17 /* Constants.swift in Sources */,
@@ -312,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EFAA5BD29A3BA0300A6C0D4 /* Boss.swift in Sources */,
 				8E2AFF9029810B1800125B17 /* SpaceShootingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,6 +329,7 @@
 			files = (
 				8E2AFF9C29810B1800125B17 /* SpaceShootingUITestsLaunchTests.swift in Sources */,
 				8E2AFF9A29810B1800125B17 /* SpaceShootingUITests.swift in Sources */,
+				8EFAA5BE29A3BA0300A6C0D4 /* Boss.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

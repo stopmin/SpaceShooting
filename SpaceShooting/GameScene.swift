@@ -25,6 +25,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let hud = Hud()
     
+    var boss: Boss?
+    var isBossOnScreen = false
+    
     override func didMove(to view: SKView) {    // 화면 초기화
         
         // 물리효과 판정 델리게이트 셋업
@@ -60,7 +63,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         playerFireTimer = setTimer(interval: 0.4, function: self.playerFire)
         
+        // 보스 배치 후 출현시킴
+//        boss = Boss(screenSize: self.size, level: 1)
+//        addChild(boss!)
+//        boss!.appear()
+        
     }
+    
     
     func playerFire() {
         let missile = self.player.createMissile()
@@ -242,5 +251,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             firstBody.node?.removeFromParent()
         }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.missile
+            && secondBody.categoryBitMask == PhysicsCategory.boss {
+            
+            print("missile and boss!!")
+            
+            // 미사일이 부딪힌 부분에서 폭발처리
+            guard let targetNode = firstBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: true)
+            targetNode.removeFromParent()
+            
+            guard let boss = boss else {return}
+            boss.shootCount += 1
+            print(boss.shootCount)
+            
+            if boss.shootCount >= (boss.maxHP / 2) {
+                let damageTexture = boss.createDamageTexture()
+                boss.addChild(damageTexture)
+            }
+        }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if isBossOnScreen{
+            return
+        } else if self.hud.score >= 350 {
+            self.boss = Boss(screenSize: self.size, level: 2)
+            guard let boss = boss else {return}
+            self.addChild(boss)
+            boss.appear()
+            
+            isBossOnScreen = true
+        } else if self.hud.score >= 50 {
+            self.boss = Boss(screenSize: self.size, level: 1)
+            guard let boss = boss else {return}
+            self.addChild(boss)
+            boss.appear()
+            
+            isBossOnScreen = true
+        } else {return}
     }
 }

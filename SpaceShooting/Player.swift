@@ -47,7 +47,7 @@ class Player: SKSpriteNode{
         // 물리바디 부여
         missile.physicsBody = SKPhysicsBody(rectangleOf: missile.size)
         missile.physicsBody?.categoryBitMask = PhysicsCategory.missile
-        missile.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor
+        missile.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor | PhysicsCategory.boss
         missile.physicsBody?.collisionBitMask = 0
         missile.physicsBody?.usesPreciseCollisionDetection = true
         
