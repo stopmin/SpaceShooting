@@ -45,6 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
+        // BGM
+        let bgmPlayer = SKAudioNode(fileNamed: BGM.main)
+        bgmPlayer.autoplayLooped = true
+        self.addChild(bgmPlayer)
         
         // 카메라 추가
         self.camera = cameraNode
@@ -87,6 +91,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let missile = self.player.createMissile()
         self.addChild(missile)
         self.player.fireMissile(missile: missile) // firemissile을 통해 화면 밖으로 보낸다
+            
+        self.run(SoundFx.playerFire)
     }
     
     // 보스 직선샷
@@ -96,6 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(missile)
         let action = SKAction.sequence([SKAction.moveTo(y: -missile.size.width, duration: 3.0), SKAction.removeFromParent()])
         missile.run(action)
+        
+        self.run(SoundFx.bossFire)
     }
     
     // 보서 원형샷
@@ -115,6 +123,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(missile)
             missile.run(action)
         }
+        
+        self.run(SoundFx.bossFire)
     }
     
     // MARK: - 각종 객체 생성
@@ -241,6 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         explosion.position = targetNode.position
         explosion.zPosition = targetNode.zPosition
         self.addChild(explosion)
+        self.run(SoundFx.explosion)
         
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
@@ -528,6 +539,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             default: break
             }
             
+            self.run(SoundFx.item)
             targetNode.removeFromParent()
             
         }

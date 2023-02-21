@@ -10,6 +10,10 @@ import SpriteKit
 class MenuScene: SKScene {
     override func didMove(to view: SKView) {
         
+        let bgmPlayer = SKAudioNode(fileNamed: BGM.title)
+        bgmPlayer.autoplayLooped = true
+        self.addChild(bgmPlayer)
+        
         guard let starfield = SKEmitterNode(fileNamed: Particle.starfield) else {return}
         starfield.position = CGPoint(x: size.width / 2, y: size.height)
         starfield.advanceSimulationTime(30)
