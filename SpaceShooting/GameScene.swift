@@ -18,10 +18,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var meteorInterval: TimeInterval = 2.0
     var enemyTimer = Timer()
     var enemyInterval: TimeInterval = 1.2
+    var itemTimer = Timer()
+    var itemInterval: TimeInterval = 3.0
     
     var player: Player! // 널 값이 안들어가는게 확실!
     var playerFireTimer = Timer()
     
+    // 실드용 컨테이너
+    var shield = SKSpriteNode()
+    var isShieldOn = false
+    var shieldCount: Int = 0
     
     let hud = Hud()
     
@@ -59,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //        addMeteor()
         meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)  // 메테오 타이머에 부여한다 이때 addmeteor는 Self형태로
         enemyTimer = setTimer(interval: enemyInterval, function: self.addEnemy)
+        itemTimer = setTimer(interval: itemInterval, function: self.addItem)
         
         // 플레이어 배치
         player = Player(screenSize: self.size)
@@ -167,6 +174,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.run(SKAction.sequence([moveAct, removeAct]))
     }
     
+    func addItem() {
+        let itemList = ["itemlightning", "itemshield", "itemstar"]
+        let randomItem = Int(arc4random_uniform(UInt32(itemList.count)))
+        let randomXpos = CGFloat(arc4random_uniform(UInt32(self.size.width)))
+        let randomSpeed = TimeInterval(arc4random_uniform(UInt32(10)) + 5)
+        
+        let texture = Atlas.gameobject.textureNamed(itemList[randomItem])
+        let item = SKSpriteNode(texture: texture)
+        item.position = CGPoint(x: randomXpos, y: self.size.height + item.size.height)
+        item.zPosition = Layer.item
+        
+        // 물리바디 부여
+        item.physicsBody = SKPhysicsBody(circleOfRadius: item.size.height / 2)
+        item.physicsBody?.categoryBitMask = PhysicsCategory.item
+        item.physicsBody?.contactTestBitMask = 0
+        item.physicsBody?.collisionBitMask = 0
+        self.addChild(item)
+        
+        // 아이템을 name 속성으로 구분
+        switch itemList[randomItem] {
+        case "itemlightning":
+            item.name = "lightning"
+        case "itemstar":
+            item.name = "star"
+        case "itemshield":
+            item.name = "shield"
+        default:
+            break
+        }
+        
+        let moveAction = SKAction.moveTo(y: -item.size.height, duration: randomSpeed)
+        let removeAction = SKAction.removeFromParent()
+        item.run(SKAction.sequence([moveAction, removeAction]))
+    }
+    
     // MARK: - 타이머 관련
     func setTimer(interval: TimeInterval, function:@escaping () -> Void) -> Timer { // 함수를 포인터형태로
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true){ _ in function()
@@ -248,6 +290,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
+        // 실드 접촉 판정
+        if firstBody.categoryBitMask == PhysicsCategory.shield {
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            
+            explosion(targetNode: targetNode, isSmall: true)
+            targetNode.removeFromParent()
+            
+            shieldCount -= 1
+            if shieldCount <= 0 {
+                self.shield.removeFromParent()
+                isShieldOn = false
+            }
+        }
+        
         if firstBody.categoryBitMask == PhysicsCategory.player
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
 //             print("player and meteor!!")
@@ -272,7 +328,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hud.subtractLive()
         }
         
-        if firstBody.categoryBitMask == PhysicsCategory.player && secondBody.categoryBitMask == PhysicsCategory.bossMissile {
+        if firstBody.categoryBitMask == PhysicsCategory.player
+            && secondBody.categoryBitMask == PhysicsCategory.bossMissile {
             
             guard let targetNode = secondBody.node as? SKSpriteNode else {return}
             explosion(targetNode: targetNode, isSmall: true)
@@ -280,6 +337,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             playerDamgageEffect()
             hud.subtractLive()
+        }
+        
+        if firstBody.categoryBitMask == PhysicsCategory.player
+            && secondBody.categoryBitMask == PhysicsCategory.item {
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            let name = targetNode.name
+            switch name{
+            case "lightning":
+//                print("light")
+                
+                // 노드를 검색하면서 처리
+                enumerateChildNodes(withName: "enemy") { node, _ in
+                    if let enemyNode = node as? SKSpriteNode {
+                        self.explosion(targetNode: enemyNode, isSmall: true)
+                        enemyNode.removeFromParent()
+                        
+                        self.hud.score += 10
+                    }
+                }
+                
+                enumerateChildNodes(withName: "meteor") { node, _ in
+                    if let meteorNode = node as? SKSpriteNode {
+                        self.explosion(targetNode: meteorNode, isSmall: false)
+                        meteorNode.removeFromParent()
+                        
+                        self.hud.score += 10
+                    }
+                }
+            case "star":
+//                print("star")
+                playerFireTimer.invalidate()
+                
+                // 스타의 효과를 지속할 시간
+                var starTime: Int = 50
+                
+                // 인터벌을 반으로 줄인 타이머를 실행
+                playerFireTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true){ _ in
+                    starTime -= 1
+                    
+                    self.playerFire()
+                    
+                    //스타 효과가 끝나면 다시 타이머 인터벌을 되돌림
+                    if starTime <= 0 {
+                        self.playerFireTimer.invalidate()
+                        self.playerFireTimer = self.setTimer(interval: 0.4, function: self.playerFire)
+                    }
+                }
+                playerFireTimer.tolerance = 0.1
+                
+            case "shield":
+                print("shield")
+                if !isShieldOn{
+                    shield = self.player.createShield()
+                    player.addChild(shield)
+                    isShieldOn = true
+                    shieldCount = 1
+                }
+                
+            default: break
+            }
+            
+            targetNode.removeFromParent()
+            
         }
         
         if firstBody.categoryBitMask == PhysicsCategory.missile

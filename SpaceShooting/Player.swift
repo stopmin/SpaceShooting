@@ -19,7 +19,7 @@ class Player: SKSpriteNode{
         // 물리바디 설정
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width / 3, height: self.size.height / 3), center: CGPoint(x: 0, y: 0))
         self.physicsBody?.categoryBitMask = PhysicsCategory.player
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor | PhysicsCategory.boss | PhysicsCategory.bossMissile
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor | PhysicsCategory.boss | PhysicsCategory.bossMissile | PhysicsCategory.item
         self.physicsBody?.collisionBitMask = 0
         
         // 스러스터 붙이기
@@ -34,6 +34,27 @@ class Player: SKSpriteNode{
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // 실드 작성
+    func createShield() -> SKSpriteNode {
+        let texture = Atlas.gameobject.textureNamed("playerShield")
+        let shield = SKSpriteNode(texture: texture)
+        shield.position = CGPoint(x: 0, y: 0)
+        shield.zPosition = Layer.upper
+        shield.physicsBody = SKPhysicsBody(circleOfRadius: shield.size.height / 2)
+        shield.physicsBody?.categoryBitMask = PhysicsCategory.shield
+        shield.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor | PhysicsCategory.bossMissile
+        shield.physicsBody?.collisionBitMask = 0
+        
+        // 깜박임 효과
+        let fadeOutAndIn = SKAction.sequence([
+            SKAction.fadeAlpha(to: 0.2, duration: 1.0),
+            SKAction.fadeAlpha(to: 1.0, duration: 1.0)
+        ])
+        shield.run(SKAction.repeatForever(fadeOutAndIn))
+        
+        return shield
     }
     
     // 미사일 작성
