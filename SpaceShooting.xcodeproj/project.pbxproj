@@ -24,6 +24,8 @@
 		8E57B9ED298B824700A8032C /* enemyThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EC298B824700A8032C /* enemyThruster.sks */; };
 		8E57B9F0298B826900A8032C /* playerThruster.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EE298B826900A8032C /* playerThruster.sks */; };
 		8E57B9F1298B826900A8032C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E57B9EF298B826900A8032C /* Assets.xcassets */; };
+		8E81A7D129A4B90400DEF750 /* ClearScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A7D029A4B90400DEF750 /* ClearScene.swift */; };
+		8E81A7D329A4BB0E00DEF750 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E81A7D229A4BB0E00DEF750 /* MenuScene.swift */; };
 		8EFAA5B529A3A61000A6C0D4 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B429A3A61000A6C0D4 /* Hud.swift */; };
 		8EFAA5B729A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
 		8EFAA5B829A3A8E600A6C0D4 /* Minercraftory.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */; };
@@ -71,6 +73,8 @@
 		8E57B9EC298B824700A8032C /* enemyThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = enemyThruster.sks; sourceTree = "<group>"; };
 		8E57B9EE298B826900A8032C /* playerThruster.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = playerThruster.sks; sourceTree = "<group>"; };
 		8E57B9EF298B826900A8032C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8E81A7D029A4B90400DEF750 /* ClearScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearScene.swift; sourceTree = "<group>"; };
+		8E81A7D229A4BB0E00DEF750 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		8EFAA5B429A3A61000A6C0D4 /* Hud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
 		8EFAA5B629A3A8E600A6C0D4 /* Minercraftory.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minercraftory.ttf; sourceTree = "<group>"; };
 		8EFAA5BA29A3AC8B00A6C0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 				8E259365298B9A85008B4C9D /* hit.sks */,
 				8EFAA5B429A3A61000A6C0D4 /* Hud.swift */,
 				8EFAA5BB29A3BA0300A6C0D4 /* Boss.swift */,
+				8E81A7D029A4B90400DEF750 /* ClearScene.swift */,
+				8E81A7D229A4BB0E00DEF750 /* MenuScene.swift */,
 			);
 			path = SpaceShooting;
 			sourceTree = "<group>";
@@ -304,8 +310,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E81A7D129A4B90400DEF750 /* ClearScene.swift in Sources */,
 				8E2AFF7C29810B1700125B17 /* GameScene.swift in Sources */,
 				8E2AFF7E29810B1700125B17 /* GameViewController.swift in Sources */,
+				8E81A7D329A4BB0E00DEF750 /* MenuScene.swift in Sources */,
 				8EFAA5BC29A3BA0300A6C0D4 /* Boss.swift in Sources */,
 				8E2AFF7629810B1700125B17 /* AppDelegate.swift in Sources */,
 				8E2AFFF42981835000125B17 /* Player.swift in Sources */,

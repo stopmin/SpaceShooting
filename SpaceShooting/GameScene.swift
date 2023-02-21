@@ -37,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bossFireTimer1 = Timer()
     var bossFireTimer2 = Timer()
     
+    var continueScreen = SKSpriteNode()
     
     override func didMove(to view: SKView) {    // 화면 초기화
         
@@ -272,10 +273,138 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.player.run(SKAction.moveTo(x: location.x, duration: 0.2))
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        playerFire()
-//    }
+        let touch = touches.first
+        if let location = touch?.location(in: self) {
+            let nodeArray = self.nodes(at: location)
+            if let nodeName = nodeArray.first?.name {
+                switch nodeName {
+                case "restartBtn":
+                    restart()
+                default:
+                    break
+                }
+            }
+        }
+    }
     
+    //  MARK: - 게임 오버 관련
+    func gameover() {
+        // 모든 피탄효과 삭제
+        self.enumerateChildNodes(withName: "flashNode") { node, _ in
+            node.removeFromParent()
+        }
+        
+        // 모든 타이머 정지
+        itemTimer.invalidate()
+        meteorTimer.invalidate()
+        enemyTimer.invalidate()
+        playerFireTimer.invalidate()
+        
+        if isBossOnScreen == true {
+            bossFireTimer1.invalidate()
+            bossFireTimer2.invalidate()
+        }
+        
+        saveHighscore()
+        
+        continueScreen = createContinueScreen()
+        self.addChild(continueScreen)
+        self.isPaused = true
+    }
+    
+    func createContinueScreen() -> SKSpriteNode {
+        
+        continueScreen = SKSpriteNode(color: SKColor.darkGray, size: size)
+        continueScreen.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        continueScreen.zPosition = Layer.gameover
+        continueScreen.alpha = 0.9
+        
+        let continueLabel = SKLabelNode(text: "Continue?")
+        continueLabel.fontName = "Minercraftory"
+        continueLabel.fontSize = 40
+        continueLabel.position = CGPoint(x: 0, y: size.height * 0.35)
+        continueLabel.zPosition = Layer.upper
+        continueScreen.addChild(continueLabel)
+        
+        let scoreLabel = SKLabelNode(text: String(format: "Score: %d", self.hud.score))
+        scoreLabel.fontName = "Minercraftory"
+        scoreLabel.fontSize = 25
+        scoreLabel.position = CGPoint(x: 0, y: size.height * 0.20)
+        scoreLabel.zPosition = Layer.upper
+        continueScreen.addChild(scoreLabel)
+        
+        let highScoreLabel = SKLabelNode(text: String(format: "high Score: %d", UserDefaults.standard.integer(forKey: "highScore")))
+        highScoreLabel.fontName = "Minercraftory"
+        scoreLabel.fontSize = 25
+        highScoreLabel.position = CGPoint(x: 0, y: size.height * 0.13)
+        highScoreLabel.zPosition = Layer.upper
+        continueScreen.addChild(highScoreLabel)
+      
+        let restartTexture = Atlas.gameobject.textureNamed("restartBtn")
+        let restartBtn = SKSpriteNode(texture: restartTexture)
+        restartBtn.name = "restartBtn"
+        restartBtn.position = CGPoint(x: 0, y: size.height * -0.05)
+        restartBtn.zPosition = Layer.upper
+        continueScreen.addChild(restartBtn)
+        
+        return continueScreen
+    }
+    
+    func restart() {
+        continueScreen.removeFromParent()
+        self.isPaused = false
+        
+        self.hud.addLives()
+        
+        meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)
+        enemyTimer = setTimer(interval: enemyInterval, function: self.addEnemy)
+        itemTimer = setTimer(interval: itemInterval, function: self.addItem)
+        playerFireTimer = setTimer(interval: 0.4, function: playerFire)
+        
+        if boss?.bossState == .secondStep {
+            bossFireTimer1 = setTimer(interval: 2.0, function: bossFire)
+        } else if boss?.bossState == .thirdStep {
+            bossFireTimer1 = setTimer(interval: 2.0, function: bossFire)
+            bossFireTimer2 = setTimer(interval: 3.0, function: bossCircleFire(bPoint:))
+        }
+    }
+    
+    func saveHighscore() {
+        let userDefault = UserDefaults.standard
+        let highScore = userDefault.integer(forKey: "highScore")
+        
+        if self.hud.score > highScore {
+            userDefault.set(self.hud.score, forKey: "highScore")
+        }
+        userDefault.synchronize()
+    }
+    
+    func stageClear() {
+        meteorTimer.invalidate()
+        enemyTimer.invalidate()
+        itemTimer.invalidate()
+        
+        meteorInterval -= 0.5
+        enemyInterval -= 0.5
+        itemInterval += 0.5
+        
+        meteorTimer = setTimer(interval: meteorInterval, function: self.addMeteor)
+        enemyTimer = setTimer(interval: enemyInterval, function: self.addEnemy)
+        itemTimer = setTimer(interval: itemInterval, function: self.addItem)
+    }
+    
+    func gameClear() {
+        saveHighscore()
+        
+        let transition = SKTransition.crossFade(withDuration: 5.0)
+        let creditScene = ClearScene(size:size)
+        creditScene.scaleMode = .aspectFit
+        self.view?.presentScene(creditScene, transition: transition)
+    }
+    
+    // MARK: - 물리효과 시뮬레이션
     func didBegin(_ contact: SKPhysicsContact) {
         
         // 충돌한 두 바디 정렬
@@ -458,6 +587,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 bossFireTimer1.invalidate() // 보스가 파괴되었을 때 화면에서 제거하고 내부 값을 nil로 변화시킨 뒤...
                 bossFireTimer2.invalidate()
                 
+                // 보스가 남아있으면 스테이지 클리어, 없으면 게임 클리어
+                if bossNumber > 0 {
+                    stageClear()
+                } else {
+                    gameClear()
+                }
+                
             } else if boss.shootCount >= Int(Double(boss.maxHP) * 0.6) {
 //                print("boss HP left is 40%")
                 
@@ -477,7 +613,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     bossFireTimer1 = setTimer(interval: 2.0, function: self.bossFire)
                 } else {return}
             }
-            
+        }
+        
+        if hud.livesArray.isEmpty {
+            gameover()
         }
     }
     
