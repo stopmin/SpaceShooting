@@ -102,7 +102,22 @@ class Boss: SKSpriteNode {
         let moveCenter2 = SKAction.moveTo(x: screenSize.width / 2, duration: duration2)
         let moveLeft2 = SKAction.moveTo(x: 0, duration: duration2)
         let moveRtoL2 = SKAction.sequence([moveRight2, moveCenter2, moveLeft2, moveCenter2])
-        infiniteMoveRL2 = SKAction.repeatForever(moveRtoL2)    }
+        infiniteMoveRL2 = SKAction.repeatForever(moveRtoL2)
+    }
+    
+    func createMissile() -> SKSpriteNode {
+        let texture = Atlas.gameobject.textureNamed("bossmissile")
+        let missile = SKSpriteNode(texture: texture)
+        missile.position = self.position
+        missile.zPosition = Layer.bossmissile
+        missile.physicsBody = SKPhysicsBody(circleOfRadius: missile.size.width / 2)
+        missile.physicsBody?.categoryBitMask = PhysicsCategory.bossMissile
+        missile.physicsBody?.contactTestBitMask = 0
+        missile.physicsBody?.collisionBitMask = 0
+        missile.physicsBody?.usesPreciseCollisionDetection = true
+        
+        return missile
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

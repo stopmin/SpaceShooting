@@ -28,6 +28,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var boss: Boss?
     var isBossOnScreen = false
     var bossNumber = 2
+    var bossFireTimer1 = Timer()
+    var bossFireTimer2 = Timer()
     
     
     override func didMove(to view: SKView) {    // 화면 초기화
@@ -72,13 +74,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
+    // MARK - 미사일 발사 관련
     func playerFire() {
         let missile = self.player.createMissile()
         self.addChild(missile)
         self.player.fireMissile(missile: missile) // firemissile을 통해 화면 밖으로 보낸다
     }
     
+    // 보스 직선샷
+    func bossFire() {
+        guard let boss = boss else {return}
+        let missile = boss.createMissile()
+        self.addChild(missile)
+        let action = SKAction.sequence([SKAction.moveTo(y: -missile.size.width, duration: 3.0), SKAction.removeFromParent()])
+        missile.run(action)
+    }
+    
+    // 보서 원형샷
+    func bossCircleFire(bPoint: CGPoint) {
+        guard let boss = boss else {return}
+        
+        let seperate: Double = 30.0             // 원을 몇 개로 만드느냐
+        let missileSpeed: TimeInterval = 8.0    // 미사일이 발사되는 속도
+        
+        for i in 0 ..< Int(seperate) {
+            let r: CGFloat = self.size.height
+            let x: CGFloat = r * CGFloat((cos(Double(i) * 2 * Double.pi / seperate)))
+            let y: CGFloat = r * CGFloat((sin(Double(i) * 2 * Double.pi / seperate)))
+           
+            let action = SKAction.sequence([SKAction.move(to: CGPoint(x: bPoint.x + x, y: bPoint.y + y), duration: missileSpeed), SKAction.removeFromParent()])
+            let missile = boss.createMissile()
+            self.addChild(missile)
+            missile.run(action)
+        }
+    }
+    
+    // MARK: - 각종 객체 생성
     func addMeteor() {  // meteor를 만드는 함수
         let randomMeteor = arc4random_uniform(UInt32(3)) + 1                    // 랜덤으로 메테오 생성 (3가지 중 1개)
         let randomXPos = CGFloat(arc4random_uniform(UInt32(self.size.width)))   // x위치
@@ -136,10 +167,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.run(SKAction.sequence([moveAct, removeAct]))
     }
     
+    // MARK: - 타이머 관련
     func setTimer(interval: TimeInterval, function:@escaping () -> Void) -> Timer { // 함수를 포인터형태로
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true){ _ in function()
         }
         timer.tolerance = interval * 0.2    // 여유분을 제공
+        
+        return timer
+    }
+    
+    func setTimer(interval: TimeInterval, function: @escaping (CGPoint) -> Void) -> Timer {
+        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true){ _ in
+            guard let boss = self.boss else {return}
+            function(boss.position)
+        }
+        timer.tolerance = interval * 0.2
         
         return timer
     }
@@ -230,6 +272,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hud.subtractLive()
         }
         
+        if firstBody.categoryBitMask == PhysicsCategory.player && secondBody.categoryBitMask == PhysicsCategory.bossMissile {
+            
+            guard let targetNode = secondBody.node as? SKSpriteNode else {return}
+            explosion(targetNode: targetNode, isSmall: true)
+            targetNode.removeFromParent()
+            
+            playerDamgageEffect()
+            hud.subtractLive()
+        }
+        
         if firstBody.categoryBitMask == PhysicsCategory.missile
             && secondBody.categoryBitMask == PhysicsCategory.meteor {
 //            print("missile and meteor!!")
@@ -282,6 +334,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.hud.score += 100
                 self.bossNumber -= 1
                 isBossOnScreen = false
+                bossFireTimer1.invalidate() // 보스가 파괴되었을 때 화면에서 제거하고 내부 값을 nil로 변화시킨 뒤...
+                bossFireTimer2.invalidate()
                 
             } else if boss.shootCount >= Int(Double(boss.maxHP) * 0.6) {
 //                print("boss HP left is 40%")
@@ -289,6 +343,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // 2단게에서 3단계로 전환
                 if boss.bossState == .secondStep{
                     boss.bossState = .thirdStep
+                
+                    bossFireTimer2 = setTimer(interval: 3.0, function: bossCircleFire(bPoint:))
                 } else {return}
             } else if boss.shootCount >= Int(Double(boss.maxHP) * 0.2) {
 //                print("boss HP left is 80%")
@@ -296,6 +352,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // 1단계에서 2단계로 전환
                 if boss.bossState == .firstStep {
                     boss.bossState = .secondStep
+                    
+                    bossFireTimer1 = setTimer(interval: 2.0, function: self.bossFire)
                 } else {return}
             }
             

@@ -19,7 +19,7 @@ class Player: SKSpriteNode{
         // 물리바디 설정
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width / 3, height: self.size.height / 3), center: CGPoint(x: 0, y: 0))
         self.physicsBody?.categoryBitMask = PhysicsCategory.player
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy | PhysicsCategory.meteor | PhysicsCategory.boss | PhysicsCategory.bossMissile
         self.physicsBody?.collisionBitMask = 0
         
         // 스러스터 붙이기
